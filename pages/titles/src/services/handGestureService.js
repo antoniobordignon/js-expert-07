@@ -53,7 +53,7 @@ export default class HandGestureService {
             modelType: 'lite',
             maxHands: 2,
         }
-        this.#detector = await this.handPoseDetection.createDetector(
+        this.#detector = await this.#handPoseDetection.createDetector(
             this.#handPoseDetection.SupportedModels.MediaPipeHands, 
             detectorConfig
         )

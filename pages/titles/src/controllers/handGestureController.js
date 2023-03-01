@@ -35,19 +35,19 @@ export default class HandGestureController {
 
         this.#view.scrollPage(this.#lastDirection.y)
     }
-    async #estimateHands(){
+    async #estimateHands() {
         try {
-            const hands = await this.#service.estimateHands(this.#camera.video)
-            for await(const { event, x, y } of this.service.detectGestures(hands)){
-                if(event.includes('scroll')){
-                    if(!scrollShouldRun()) continue;
-                    this.#scrollPage(event)
-                }
+          const hands = await this.#service.estimateHands(this.#camera.video)
+          for await (const { event, x, y } of this.#service.detectGestures(hands)) {
+            if (event.includes('scroll')) {
+              if(!scrollShouldRun()) continue;
+              this.#scrollPage(event)
             }
+          }
         } catch (error) {
-            console.error('error: ', error)
+          console.error('error**', error)
         }
-    }
+      }
     
     async #loop() {
         await this.#service.initializeDetector()
