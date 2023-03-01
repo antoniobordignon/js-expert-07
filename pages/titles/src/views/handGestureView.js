@@ -13,7 +13,7 @@ export default class HandGestureView {
     drawResults(hands) {
         for( const{ keypoints, handedness } of hands){
             if(!keypoints) continue
-            this.#canvasContext.fillStyle = handedness === "Left" ? "cyan": "blue"
+            this.#canvasContext.fillStyle = handedness === "Left" ? "cyan": "cyan"
             this.#canvasContext.strokeStyle = "gray"
             this.#canvasContext.lineWidth = 8
             this.#canvasContext.lineJoin = "round"
@@ -21,6 +21,19 @@ export default class HandGestureView {
             this.#drawJoients(keypoints)
             this.#drawFingersAndHoverElements(keypoints)
         }
+    }
+    clickOnElement(x,y){
+        const element = document.elementFromPoint(x,y)
+        if(!element) return;
+
+        const rect = element.getBoundingClientRect()
+        const event = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+            clientX: rect.left + x,
+            clientY: rect.top + y
+        })
     }
     #drawJoients(keypoints){
         for(const {x, y} of keypoints){
