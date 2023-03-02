@@ -40,13 +40,14 @@ async function getWorker(){
 
 const worker = await getWorker()
 const camera = await Camera.init()
+
 const factory = {
   async initalize() {
     return Controller.initialize({
       view: new View(),
       worker,
       camera,
-      videoUrl: `../../../assets/video.mp4`
+      videoUrl: `https://github.com/antoniobordignon/js-expert-07/blob/master/assets/video.mp4`
     })
   }
 }
