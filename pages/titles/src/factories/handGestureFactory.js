@@ -25,7 +25,7 @@ const factory = {
         fingerpose: window.fp,
         handPoseDetection: window.handPoseDetection,
         handsVersion: window.VERSION
-      })
+      }),
     })
   }
 }

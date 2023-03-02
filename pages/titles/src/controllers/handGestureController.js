@@ -1,8 +1,7 @@
 import { prepareRunChecker } from "../../../../lib/shared/util.js"
 
 const {shouldRun: scrollShouldRun } = prepareRunChecker({ timerDelay: 200})
-const {shouldRun: clickShouldRun } = prepareRunChecker({ timerDelay: 200})
-prepareRunChecker
+const {shouldRun: clickShouldRun } = prepareRunChecker({ timerDelay: 300})
 
 export default class HandGestureController {
     #view
@@ -33,7 +32,6 @@ export default class HandGestureController {
         else {
             this.#lastDirection.direction = direction
         }
-
         this.#view.scrollPage(this.#lastDirection.y)
     }
     async #estimateHands() {
@@ -42,28 +40,28 @@ export default class HandGestureController {
           this.#view.clearCanvas()
           if(hands?.length) this.#view.drawResults(hands)
           for await (const { event, x, y } of this.#service.detectGestures(hands)) {
-            if (event === 'click'){
-                if(!clickShouldRun()) continue
-                this.#view.clickOnElement(x, y)
-                continue
+            if (event === 'click') {
+              if (!clickShouldRun()) continue
+              this.#view.clickOnElement(x, y)
+              continue
             }
             if (event.includes('scroll')) {
-              if(!scrollShouldRun()) continue;
+              if (!scrollShouldRun()) continue
               this.#scrollPage(event)
             }
           }
         } catch (error) {
-          console.error('error**', error)
+          console.error('error', error)
         }
       }
     
     async #loop() {
-        await this.#service.initializeDetector()
-        await this.#estimateHands()
-        this.#view.loop(this.#loop.bind(this))
+      await this.#service.initializeDetector()
+      await this.#estimateHands()
+      this.#view.loop(this.#loop.bind(this))
     }
     static async initialize(deps) {
-        const controller = new HandGestureController(deps)
-        return controller.init()
+      const controller = new HandGestureController(deps)
+      return controller.init()
     }
 }
