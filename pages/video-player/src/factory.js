@@ -40,14 +40,13 @@ async function getWorker(){
 
 const worker = await getWorker()
 const camera = await Camera.init()
-const [rootPath] = window.location.href.split('/pages/')
 const factory = {
   async initalize() {
     return Controller.initialize({
       view: new View(),
       worker,
       camera,
-      videoUrl: `${rootPath}/assets/video.mp4`
+      videoUrl: `../../../assets/video.mp4`
     })
   }
 }
